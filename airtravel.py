@@ -115,32 +115,50 @@ class Flight:
 
 
 class Aircraft:
-    def __init__(self, registration, model, num_rows, num_seats_per_row):
+    def __init__(self, registration):
         self._registration = registration
-        self._model = model
-        self._num_rows = num_rows
-        self._num_seat_per_row = num_seats_per_row
 
     def registration(self):
         return self._registration
 
+    def num_seats(self):
+        rows, row_seats = self.seating_plan()
+        return len(rows) * len(row_seats)
+
+
+class AirbusA319(Aircraft):
     def model(self):
-        return self._model
+        return "Airbus A319"
 
     def seating_plan(self):
-        return (range(1, self._num_rows + 1),
-                "ABCDEFGHJK"[:self._num_seat_per_row])
+        return range(1, 23), "ABCDEF"
 
 
-def make_flight():
-    f = Flight("BA758", Aircraft("G-EUPT", "Airbus A319", num_rows=22,
-                                 num_seats_per_row=6))
+class Boeing777(Aircraft):
+    def model(self):
+        return "Boeing 777"
+
+    def seating_plan(self):
+        # For simplicity purposes we ignore complex
+        # seating arrangement for first class
+        return range(1, 56), "ABCDEFGHJK"
+
+
+def make_flights():
+    f = Flight("BA758", AirbusA319("G-EUPT"))
     f.allocate_seat("12A", "Guido van Rossum")
     f.allocate_seat("15F", "Bjorne Stroustrup")
     f.allocate_seat("15E", "Anders Hejlsberg")
     f.allocate_seat("1C", "John McCarthy")
     f.allocate_seat("1D", "Richard Hickey")
-    return f
+
+    g = Flight("AF720", Boeing777("F-GSPS"))
+    g.allocate_seat("55K", "Larry Walt")
+    g.allocate_seat("33G", "Yukihiro Matsumoto")
+    g.allocate_seat("4B", "Brian Kernighan")
+    g.allocate_seat("4C", "Dennis Ritchie")
+
+    return f, g
 
 
 def console_card_printer(passenger, seat, flight_number, aircraft):
@@ -156,5 +174,6 @@ def console_card_printer(passenger, seat, flight_number, aircraft):
     print(card)
     print()
 
+
 if __name__ == "__main__":
-    make_flight().make_boarding_cards(console_card_printer)
+    make_flights().make_boarding_cards(console_card_printer)
