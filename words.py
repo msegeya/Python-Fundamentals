@@ -6,9 +6,9 @@ Usage:
     python3 words.py<URL>
 """
 
-
 import sys
-from urllib import urlopen
+from urllib import request
+
 
 def fetch_words(url):
     """Fetch a list of words from a URL.
@@ -19,13 +19,14 @@ def fetch_words(url):
     Returns:
         A list of string containing the words from the document.
     """
-    story = urlopen(url)
+    story = request.urlopen(url)
     story_words = []
     for line in story:
         line_words = line.decode('utf-8').split()
         for word in line_words:
             story_words.append(word)
     return story_words
+
 
 def print_items(items):
     """ Print items one per line.
@@ -36,6 +37,7 @@ def print_items(items):
     for item in items:
         print(item)
 
+
 def main(url):
     """ Print each word from a text document from a URL.
 
@@ -45,5 +47,6 @@ def main(url):
     words = fetch_words(url)
     print_items(words)
 
+
 if __name__ == '__main__':
-    main(sys.argv[1]) # The 0th argument is the module filename
+    main(sys.argv[1])  # The 0th argument is the module filename

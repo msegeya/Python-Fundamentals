@@ -2,6 +2,7 @@ import sys
 
 __author__ = 'johanvergeer'
 
+
 def sqrt(x):
     """Compute square roots using the method of Heron of Alexandria.
 
@@ -13,8 +14,8 @@ def sqrt(x):
     """
 
     if x < 0:
-        raise ValueError("Cannot compute square root of negative number {}".format(x))
-
+        raise ValueError(
+            "Cannot compute square root of negative number {}".format(x))
 
     guess = x
     i = 0
@@ -22,6 +23,7 @@ def sqrt(x):
         guess = (guess + x / guess) / 2.0
         i += 1
     return guess
+
 
 def main():
     try:
@@ -31,6 +33,7 @@ def main():
         print("This is never printed")
     except ValueError as e:
         print(e, file=sys.stderr)
+
 
 if __name__ == '__main__':
     main()
